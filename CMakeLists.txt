@@ -1,4 +1,4 @@
-# ======================================================================
+#======================================================================
 #  larsoft main build file
 #
 #  cd .../path/to/build/directory
@@ -11,18 +11,15 @@
 #  make install
 #  make package (builds distribution tarfile)
 # ======================================================================
-
-
 cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
 
+
+
+find_package(cetmodules 2.29.07 REQUIRED)
 project(sbncode VERSION 09.35.00 LANGUAGES CXX)
 
 message(STATUS "\n\n  ==========================   ${PROJECT_NAME}   ==========================")
 
-# cetbuildtools contains our cmake modules
-find_package(cetbuildtools REQUIRED)
-
-list(APPEND CMAKE_MODULE_PATH $ENV{CANVAS_ROOT_IO_DIR}/Modules $ENV{ART_DIR}/Modules )
 
 include(CetCMakeEnv)
 cet_cmake_env()
@@ -38,45 +35,49 @@ cet_set_compiler_flags(DIAGS CAUTIOUS
   ALLOW_DEPRECATIONS
   EXTRA_FLAGS -pedantic -Wno-unused-local-typedefs -Wno-undefined-var-template
 )
-
-cet_report_compiler_flags()
+set(fcl_dir caf)
+cet_report_compiler_flags(REPORT_THRESHOLD VERBOSE)
 
 # these are minimum required versions, not the actual product versions
-find_ups_product(art)
-find_ups_product(messagefacility)
-find_ups_product(art_root_io)
-find_ups_product(gsl)
-find_ups_product(nusimdata)
-find_ups_product(nug4)
-find_ups_product(nugen)
-find_ups_product(nurandom)
-find_ups_product(nutools)
-find_ups_product(genie)
-find_ups_product(lardataobj)
-find_ups_product(larcoreobj)
-find_ups_product(larcorealg)
-find_ups_product(lardataalg)
-find_ups_product(larcore)
-find_ups_product(lardata)
-find_ups_product(larevt)
-find_ups_product(larsim)
-find_ups_product(larreco)
-find_ups_product(larpandora)
-find_ups_product(larsoft v09_00_00)
-find_ups_product(artdaq_core v3_06_01)
-find_ups_product(ifbeam)
-find_ups_product(ifbeam_art)
-find_ups_product(libwda) 
-find_ups_product(sbnobj v09_10_00)
-find_ups_product(sbndata v01_00)
-find_ups_product(ifdhc)
-find_ups_product(ifdh_art)
-find_ups_product(log4cpp)
-find_ups_boost()
-find_ups_root()
-#find_ups_product(sbndcode v06_67_00)
-#find_ups_product(uboonecode v06_67_00)
-find_ups_product( sbndaq_artdaq_core )
+find_package(art) 
+find_package(messagefacility) 
+find_package(art_root_io) 
+find_package(nusimdata) 
+find_package(nug4) 
+find_package(nugen) 
+find_package(nurandom) 
+find_package(nutools) 
+find_package(GENIE) 
+find_package(lardataobj) 
+find_package(larcoreobj) 
+find_package(larcorealg) 
+find_package(lardataalg) 
+find_package(larcore) 
+find_package(lardata) 
+find_package(larevt) 
+find_package(larsim) 
+find_package(larreco) 
+find_package(larpandora) 
+find_package(larpandoracontent) 
+find_package(artdaq_core ) 
+find_package(sbnobj ) 
+find_package(sbnanaobj )
+find_package(sbndaq_artdaq_core )
+find_package(sbndata) 
+find_package(ifdhc) 
+find_package(ifdh_art) 
+find_package(ifbeam)
+find_package(ifbeam_art)
+find_package( trace )
+find_package( libwda )
+
+find_package(CLHEP COMPONENTS ALL)
+find_package(ROOT REQUIRED)
+find_package(Geant4 REQUIRED)
+find_package(Boost COMPONENTS system)
+find_library( GSL NAMES gsl )
+find_library( LOG4CPP NAMES log4cpp )
+find_library( XML2 NAMES xml2 )
 
 # macros for dictionary and simple_plugin
 include(ArtDictionary)
@@ -84,8 +85,7 @@ include(ArtMake)
 include(BuildPlugins)
 
 add_subdirectory(sbncode)
-add_subdirectory(ups)
 add_subdirectory(fcl)
 
 # packaging utility
-include(UseCPack)
+cet_cmake_config()

@@ -1,94 +1,103 @@
 cet_enable_asserts()
-include_directories ( $ENV{GENIE_INC}/GENIE )
-include_directories ( $ENV{DK2NUDATA_INC} )
-include_directories ( $ENV{DK2NUGENIE_INC} )
-link_directories( $ENV{DK2NUDATA_LIB})
+include_directories ( $ENV{GENIE}/include/GENIE ) ### MIGRATE-ACTION-RECOMMENDED: use target_link_directories() with target semantics
+include_directories ( $ENV{GENIE}/include ) ### MIGRATE-ACTION-RECOMMENDED: use target_link_directories() with target semantics
+include_directories ( $ENV{DK2NUDATA_INC} ) ### MIGRATE-ACTION-RECOMMENDED: use target_link_directories() with target semantics
+include_directories ( $ENV{DK2NUGENIE_INC} ) ### MIGRATE-ACTION-RECOMMENDED: use target_link_directories() with target semantics
+link_directories( $ENV{DK2NUDATA_LIB}) ### MIGRATE-ACTION-RECOMMENDED: use target_link_libraries() with target semantics
 
 file(GLOB INTERFACEFILES *Interface* )
 
 simple_plugin( FluxReader
                "source"
-               sbncode_FluxReader
+               sbncode::FluxReader
+               larcore::Geometry_Geometry_service 
+               nutools::EventGeneratorBase_CRY
+               lardata::Utilities
                ${ART_FRAMEWORK_PERSISTENCY_COMMON}
 )
 
 simple_plugin ( FluxGeoFilter "module"
-                ${ART_FRAMEWORK_CORE}
-                ${ART_FRAMEWORK_PRINCIPAL}
-                ${ART_FRAMEWORK_SERVICES_REGISTRY}
-                ${ART_FRAMEWORK_SERVICES_OPTIONAL}
-                ${ART_ROOT_IO_TFILESERVICE_SERVICE}
-                ${ART_ROOT_IO_TFILE_SUPPORT}
-                art_Persistency_Common canvas
-                art_Persistency_Provenance canvas
-                art_Utilities canvas
+                art::Framework_Core
+                art::Framework_Principal
+                art::Framework_Services_Registry
+                art_root_io::TFileService_service
+                art_root_io::tfile_support
+                art::Persistency_Common canvas::canvas
+                art::Persistency_Provenance canvas::canvas
+                art::Utilities canvas::canvas
                 ${MF_MESSAGELOGGER}
-                nusimdata_SimulationBase
-                larcore_Geometry_Geometry_service
-                larcorealg_Geometry
-                ${ROOT_GEOM}
+                nusimdata::SimulationBase
+                larcore::Geometry_Geometry_service
+               lardata::Utilities
+                larcorealg::Geometry
+                ROOT::Geom
                 ${ROOT_BASIC_LIB_LIST}
 )
 
-art_make_library( LIBRARY_NAME sbncode_FluxReader_FluxInterface
+art_make_library( LIBRARY_NAME sbncode::FluxReader_FluxInterface
                   SOURCE	${INTERFACEFILES}
                   LIBRARIES
-                  nusimdata_SimulationBase
+                  nusimdata::SimulationBase
+               larcore::Geometry_Geometry_service 
                   # GENIE STUFF #####################################
                   xml2
                   LOG4CPP
-                  GFwEG
-                  GFwAlg
-                  GFwMsg
-                  GFwGHEP
-                  GTlFlx
-                  dk2nuTree
+                  GENIE::GFwEG
+                  GENIE::GFwAlg
+                  GENIE::GFwMsg
+                  GENIE::GFwGHEP
+                  GENIE::GTlFlx
+                  dk2nu::Tree
                   #${DK2NUDATA}
                   ${DK2NUGENIE}
                   ####################################################
-                  cetlib cetlib_except
+                  cetlib::cetlib cetlib_except::cetlib_except
+               lardata::Utilities
 
                   ${FHICLCPP}
                   ${MF_MESSAGELOGGER}
-                  ${CLHEP}
-                  ${ROOT_BASIC_LIB_LIST}
+                  CLHEP::CLHEP
+                  ROOT::Core ROOT::Tree
                   ${Boost_SYSTEM_LIBRARY}
 )
 
-art_make( EXCLUDE FluxReader_source.cc ${INTERFACEFILES} FluxGeoFilter_module.cc
-          LIB_LIBRARIES	nusimdata_SimulationBase
-                        sbncode_FluxReader_FluxInterface
-                        larcoreobj_SummaryData
-                        ${ART_FRAMEWORK_CORE}
-                        ${ART_FRAMEWORK_IO_SOURCES}
-                        ${ART_FRAMEWORK_PRINCIPAL}
-                        ${ART_FRAMEWORK_SERVICES_REGISTRY}
-                        ${ART_FRAMEWORK_SERVICES_OPTIONAL}
-                        ${ART_FRAMEWORK_SERVICES_OPTIONAL_TFILESERVICE_SERVICE}
-                        ${ART_ROOT_IO_TFILESERVICE_SERVICE}
-                        ${ART_ROOT_IO_TFILE_SUPPORT}
-                        art_Persistency_Common canvas
-                        art_Persistency_Provenance canvas
-                        art_Utilities canvas
+art_make( EXCLUDE FluxReader_source.cc ${INTERFACEFILES} FluxGeoFilter_module.cc ### MIGRATE-ACTION-RECOMMENDED: use art_make_library(), art_dictionary(), simple_plugin() with explicit source lists
+          LIB_LIBRARIES	nusimdata::SimulationBase
+                        sbncode::FluxReader_FluxInterface
+                        larcoreobj::SummaryData
+               larcore::Geometry_Geometry_service 
+                        art::Framework_Core
+                        art::Framework_IO_Sources
+                        art::Framework_Principal
+                        art::Framework_Services_Registry
+                        art_root_io::TFileService_service
+                        art_root_io::TFileService_service
+                        art_root_io::tfile_support
+                        art::Persistency_Common canvas::canvas
+                        art::Persistency_Provenance canvas::canvas
+                        art::Utilities canvas::canvas
                         ${MF_MESSAGELOGGER}
                         ${MF_UTILITIES}
                         ${FHICLCPP}
                         ${Boost_SYSTEM_LIBRARY}
-                        ${ROOT_BASIC_LIB_LIST}
-                        cetlib cetlib_except
+                        ROOT::Core ROOT::Tree
+                        cetlib::cetlib cetlib_except::cetlib_except
+               nutools::EventGeneratorBase_CRY
+               lardata::Utilities
 
-          MODULE_LIBRARIES sbncode_FluxReader
-                        sbncode_FluxReader_FluxInterface
-                        nusimdata_SimulationBase
-                        larcoreobj_SummaryData
-                        ${ART_FRAMEWORK_CORE}
-                        ${ART_FRAMEWORK_IO_SOURCES}
-                        ${ART_FRAMEWORK_PRINCIPAL}
-                        ${ART_FRAMEWORK_SERVICES_REGISTRY}
-                        ${ART_FRAMEWORK_SERVICES_OPTIONAL}
-                        ${ART_FRAMEWORK_SERVICES_OPTIONAL_TFILESERVICE_SERVICE}
-                        ${ART_ROOT_IO_TFILESERVICE_SERVICE}
-                        ${ART_ROOT_IO_TFILE_SUPPORT}
+          MODULE_LIBRARIES sbncode::FluxReader
+                        sbncode::FluxReader_FluxInterface
+                        nusimdata::SimulationBase
+                        larcoreobj::SummaryData
+               larcore::Geometry_Geometry_service 
+               lardata::Utilities
+                        art::Framework_Core
+                        art::Framework_IO_Sources
+                        art::Framework_Principal
+                        art::Framework_Services_Registry
+                        art_root_io::TFileService_service
+                        art_root_io::TFileService_service
+                        art_root_io::tfile_support
                         # GENIE STUFF #####################################
                         xml2
                         LOG4CPP
@@ -107,7 +116,7 @@ art_make( EXCLUDE FluxReader_source.cc ${INTERFACEFILES} FluxGeoFilter_module.cc
                         ${MF_UTILITIES}
                         ${FHICLCPP}
                         ${Boost_SYSTEM_LIBRARY}
-                        ${ROOT_BASIC_LIB_LIST}
+                        ROOT::Core ROOT::Tree
 )
 
 install_headers()

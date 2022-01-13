@@ -1,36 +1,32 @@
-set( ROOTLIB -L$ENV{ROOTSYS}/lib -lCore  -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl)
-link_libraries( ${LIB_NAME} -L$ENV{BOOST_LIB} ${ROOTLIB} )
-art_make(
+set( ROOTLIB ROOT::Core  ROOT::RIO ROOT::Net ROOT::Hist ROOT::Graf ROOT::Graf3d ROOT::Gpad ROOT::Tree ROOT::Rint ROOT::Postscript ROOT::Matrix ROOT::Physics ROOT::MathCore ROOT::Thread ) ### MIGRATE-ACTION-RECOMMENDED: use of $ENV{... may be UPS-dependent
+art_make( ### MIGRATE-ACTION-RECOMMENDED: use art_make_library(), art_dictionary(), simple_plugin() with explicit source lists
     LIB_LIBRARIES
-        sbncode_OpT0Finder_flashmatch_GeoAlgo
-        larcorealg_Geometry
-        larcore_Geometry_Geometry_service
-        lardataalg_DetectorInfo
-        art_Framework_Core
-        art_Framework_Services_Registry
-        art_Framework_Principal
-        art_Persistency_Provenance
-        art_Utilities
-        canvas
-        art_Utilities canvas
-        ${ART_FRAMEWORK_CORE}
-        ${ART_FRAMEWORK_IO_SOURCES}
-        ${ART_FRAMEWORK_PRINCIPAL}
-        ${ART_FRAMEWORK_SERVICES_REGISTRY}
-        ${ART_ROOT_IO_TFILE_SUPPORT} ${ROOT_CORE}
-        ${ART_ROOT_IO_TFILESERVICE_SERVICE}
+        sbncode::OpT0Finder_flashmatch_GeoAlgo
+        larcorealg::Geometry
+        larcore::Geometry_Geometry_service
+        lardataalg::DetectorInfo
+        art::Persistency_Provenance
+        art::Utilities
+        canvas::canvas
+        art::Utilities canvas::canvas
+        art::Framework_Core
+        art::Framework_IO_Sources
+        art::Framework_Principal
+        art::Framework_Services_Registry
+        art_root_io::tfile_support ${ROOT_CORE}
+        art_root_io::TFileService_service
+        larsim::PhotonPropagation
         ${ART_PERSISTENCY_COMMON}
         ${ART_PERSISTENCY_PROVENANCE}
         ${ART_UTILITIES}
         ${MF_MESSAGELOGGER}
         ${MF_UTILITIES}
         ${CETLIB}
-        ${CLHEP}
-        ${BOOST_LIB}
-        ${Boost_SYSTEM_LIBRARY}
-        ${ROOT_BASIC_LIB_LIST}
+        CLHEP::CLHEP
+        Boost::system
+        ${ROOTLIB}
         ${FHICLCPP}
-        cetlib cetlib_except
+        cetlib::cetlib cetlib_except::cetlib_except
 )
 
 install_headers()

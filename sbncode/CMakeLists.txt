@@ -3,7 +3,7 @@ cet_find_library( BOOST_DATE_TIME     NAMES boost_date_time     PATHS ENV BOOST_
 cet_find_library( IFBEAM NAMES ifbeam PATHS ENV IFBEAM_LIB NO_DEFAULT_PATH )
 cet_find_library( WDA NAMES wda PATHS ENV LIBWDA_LIB NO_DEFAULT_PATH )
 
-find_ups_product(sbnanaobj)
+find_package(sbnanaobj) ### MIGRATE-ACTION-RECOMMENDED: use cet_find_package() with target semantics for linking
 
 add_subdirectory(SBNEventWeight)
 add_subdirectory(NuMuSelection)

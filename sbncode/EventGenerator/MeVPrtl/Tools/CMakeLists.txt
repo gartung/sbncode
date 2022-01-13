@@ -1,150 +1,150 @@
-link_directories( $ENV{ROOTSYS}/lib )
 
-art_make_library( LIBRARY_NAME sbncode_EventGenerator_MeVPrtl_Constants
+find_library( IFDH NAMES ifdh PATHS $ENV{IFDHC_DIR}/lib) ### MIGRATE-ACTION-RECOMMENDED: use of ENV ... may be UPS-dependent ### MIGRATE-ACTION-RECOMMENDED: use cet_find_package() with target semantics for linking
+include_directories( $ENV{IFDHC_DIR}/inc ) ### MIGRATE-ACTION-RECOMMENDED: use target_link_directories() with target semantics
+
+find_library( DK2NUTREE NAMES dk2nuTree PATHS $ENV{DK2NUDATA_LIB})
+find_library( DK2NUGENIE NAMES dk2nuGenie PATHS $ENV{DK2NUGENIE_LIB})
+
+art_make_library( LIBRARY_NAME sbncode::EventGenerator_MeVPrtl_Constants
           SOURCE Constants.cpp
           LIBRARIES
-                        ${ROOT_BASIC_LIB_LIST}
-                        ${ROOT_EVE_LIB_LIST}
-                        ${ROOT_X3d}
-                            ${FHICLCPP}
-                            cetlib cetlib_except
+                        ROOT::Core
+                        ROOT::Eve
+                        ROOT::X3d
+                            fhiclcpp::fhiclcpp
+                            cetlib::cetlib cetlib_except::cetlib_except
         )
 
 
 simple_plugin( EmptyKaonGen tool
-                            ${ART_FRAMEWORK_CORE}
-                            ${ART_FRAMEWORK_SERVICES_REGISTRY}
-                            ${ART_ROOT_IO_TFILESERVICE_SERVICE}                ${ART_FRAMEWORK_SERVICES}
-                            ${ART_FRAMEWORK_PRINCIPAL}
-                            art_Persistency_Common
-                            art_Utilities canvas
+                            art::Framework_Core
+                            art::Framework_Services_Registry
+                            art_root_io::TFileService_service
+                            art::Framework_Principal
+                            art::Persistency_Common
+                            art::Utilities canvas::canvas
                             ${MF_MESSAGELOGGER}
                             ${MF_UTILITIES}
-                            ${FHICLCPP}
-                            cetlib cetlib_except
-                            ${ROOT_EVE_LIB_LIST}
-                            ${ROOT_X3d}
-                            ${ROOT_BASIC_LIB_LIST}
-			${CLHEP}
-			nurandom_RandomUtils_NuRandomService_service
-			nusimdata_SimulationBase
-			sbncode_EventGenerator_MeVPrtl_Constants
+                            fhiclcpp::fhiclcpp
+                            cetlib::cetlib cetlib_except::cetlib_except
+                            ROOT::Eve
+                            ROOT::X3d
+                            ROOT::Core
+			CLHEP::CLHEP
+			nurandom::RandomUtils_NuRandomService_service
+			nusimdata::SimulationBase
+			sbncode::EventGenerator_MeVPrtl_Constants
 )
-
-cet_find_library( IFDH NAMES ifdh PATHS ENV IFDHC_LIB NO_DEFAULT_PATH )
-##include_directories( $ENV{IFDHC_FQ_DIR}/inc )
-##include_directories( $ENV{IFDH_ART_FQ_DIR}/inc )
-
-cet_find_library( IFDH_SERVICE NAMES IFDH_service PATHS ENV IFDH_ART_LIB )
 
 
 simple_plugin( NuMiKaonGen tool
-                            IFDH_SERVICE
-                            ${ART_FRAMEWORK_CORE}
-                            ${ART_FRAMEWORK_SERVICES_REGISTRY}
-                            ${ART_ROOT_IO_TFILESERVICE_SERVICE}                ${ART_FRAMEWORK_SERVICES}
-                            ${ART_FRAMEWORK_PRINCIPAL}
-                            art_Persistency_Common
-                            art_Utilities canvas
+                            ifdh_art::IFDH_service
+                            art::Framework_Core
+                            art::Framework_Services_Registry
+                            art_root_io::TFileService_service 
+                            art::Framework_Principal
+                            art::Persistency_Common
+                            art::Utilities canvas::canvas
                             ${MF_MESSAGELOGGER}
                             ${MF_UTILITIES}
-                            ${FHICLCPP}
-                            cetlib cetlib_except
-                            ${ROOT_EVE_LIB_LIST}
-                            ${ROOT_X3d}
-                            ${ROOT_BASIC_LIB_LIST}
-			${CLHEP}
-			ifdh
-			dk2nuTree
-			nurandom_RandomUtils_NuRandomService_service
-			nusimdata_SimulationBase
-			sbncode_EventGenerator_MeVPrtl_Constants
+                            fhiclcpp::fhiclcpp
+                            cetlib::cetlib cetlib_except::cetlib_except
+                            ROOT::Eve
+                            ROOT::X3d
+                            ROOT::Core
+			CLHEP::CLHEP
+			ifdh::ifdh
+			${DK2NUTREE}
+			nurandom::RandomUtils_NuRandomService_service
+			nusimdata::SimulationBase
+			sbncode::EventGenerator_MeVPrtl_Constants
 )
 
 simple_plugin( WeightedRayTraceBox tool
-                            ${ART_FRAMEWORK_CORE}
-                            ${ART_FRAMEWORK_SERVICES_REGISTRY}
-                            ${ART_ROOT_IO_TFILESERVICE_SERVICE}                ${ART_FRAMEWORK_SERVICES}
-                            ${ART_FRAMEWORK_PRINCIPAL}
-                            art_Persistency_Common
-                            art_Utilities canvas
+                            art::Framework_Core
+                            art::Framework_Services_Registry
+                            art_root_io::TFileService_service 
+                            art::Framework_Principal
+                            art::Persistency_Common
+                            art::Utilities canvas::canvas
                             ${MF_MESSAGELOGGER}
                             ${MF_UTILITIES}
-                            ${FHICLCPP}
-                            cetlib cetlib_except
-                            ${ROOT_EVE_LIB_LIST}
-                            ${ROOT_X3d}
-                            ${ROOT_BASIC_LIB_LIST}
-			${CLHEP}
-			larcorealg_Geometry
-			nurandom_RandomUtils_NuRandomService_service
-			dk2nuGenie
-			dk2nuTree
-			sbncode_EventGenerator_MeVPrtl_Constants
+                            fhiclcpp::fhiclcpp
+                            cetlib::cetlib cetlib_except::cetlib_except
+                            ROOT::Eve
+                            ROOT::X3d
+                            ROOT::Core
+			CLHEP::CLHEP
+			larcorealg::Geometry
+			nurandom::RandomUtils_NuRandomService_service
+			${DK2NUGENIE}
+			${DK2NUTREE}
+			sbncode::EventGenerator_MeVPrtl_Constants
+                        sbnobj::Common_EventGen_MeVPrtl
 )
 
 simple_plugin( MixedWeightRayTraceBox tool
-                            ${ART_FRAMEWORK_CORE}
-                            ${ART_FRAMEWORK_SERVICES_REGISTRY}
-                            ${ART_ROOT_IO_TFILESERVICE_SERVICE}                ${ART_FRAMEWORK_SERVICES}
-                            ${ART_FRAMEWORK_PRINCIPAL}
-                            art_Persistency_Common
-                            art_Utilities canvas
+                            art::Framework_Core
+                            art::Framework_Services_Registry
+                            art_root_io::TFileService_service
+                            art::Framework_Principal
+                            art::Persistency_Common
+                            art::Utilities canvas::canvas
                             ${MF_MESSAGELOGGER}
                             ${MF_UTILITIES}
-                            ${FHICLCPP}
-                            cetlib cetlib_except
-                            ${ROOT_EVE_LIB_LIST}
-                            ${ROOT_X3d}
-                            ${ROOT_BASIC_LIB_LIST}
-			${CLHEP}
-			larcorealg_Geometry
-			nurandom_RandomUtils_NuRandomService_service
+                            fhiclcpp::fhiclcpp
+                            cetlib::cetlib cetlib_except::cetlib_except
+                            ROOT::Eve
+                            ROOT::X3d
+                            ROOT::Core
+			CLHEP::CLHEP
+			larcorealg::Geometry
+			nurandom::RandomUtils_NuRandomService_service
 			dk2nuTree
-			sbncode_EventGenerator_MeVPrtl_Constants
+			sbncode::EventGenerator_MeVPrtl_Constants
 )
 
 
 
 
 simple_plugin( ReThrowRayTraceBox tool
-                            ${ART_FRAMEWORK_CORE}
-                            ${ART_FRAMEWORK_SERVICES_REGISTRY}
-                            ${ART_ROOT_IO_TFILESERVICE_SERVICE}                ${ART_FRAMEWORK_SERVICES}
-                            ${ART_FRAMEWORK_PRINCIPAL}
-                            art_Persistency_Common
-                            art_Utilities canvas
+                            art::Framework_Core
+                            art::Framework_Services_Registry
+                            art_root_io::TFileService_service
+                            art::Framework_Principal
+                            art::Persistency_Common
+                            art::Utilities canvas::canvas
                             ${MF_MESSAGELOGGER}
                             ${MF_UTILITIES}
-                            ${FHICLCPP}
-                            cetlib cetlib_except
-                            ${ROOT_EVE_LIB_LIST}
-                            ${ROOT_X3d}
-                            ${ROOT_BASIC_LIB_LIST}
-			${CLHEP}
-			larcorealg_Geometry
-			nurandom_RandomUtils_NuRandomService_service
-			sbncode_EventGenerator_MeVPrtl_Constants
+                            fhiclcpp::fhiclcpp
+                            cetlib::cetlib cetlib_except::cetlib_except
+                            ROOT::Eve
+                            ROOT::X3d
+                            ROOT::Core
+			CLHEP::CLHEP
+			larcorealg::Geometry
+			nurandom::RandomUtils_NuRandomService_service
+			sbncode::EventGenerator_MeVPrtl_Constants
 )
 
 simple_plugin( RayTraceBox tool
-                            ${ART_FRAMEWORK_CORE}
-                            ${ART_FRAMEWORK_SERVICES_REGISTRY}
-                            ${ART_ROOT_IO_TFILESERVICE_SERVICE}                ${ART_FRAMEWORK_SERVICES}
-                            ${ART_FRAMEWORK_PRINCIPAL}
-                            art_Persistency_Common
-                            art_Utilities canvas
+                            art::Framework_Core
+                            art::Framework_Services_Registry
+                            art_root_io::TFileService_service
+                            art::Framework_Principal
+                            art::Persistency_Common
+                            art::Utilities canvas::canvas
                             ${MF_MESSAGELOGGER}
                             ${MF_UTILITIES}
-                            ${FHICLCPP}
-                            cetlib cetlib_except
-                            ${ROOT_EVE_LIB_LIST}
-                            ${ROOT_X3d}
-                            ${ROOT_BASIC_LIB_LIST}
-			${CLHEP}
-			larcorealg_Geometry
-			nurandom_RandomUtils_NuRandomService_service
-			sbncode_EventGenerator_MeVPrtl_Constants
+                            fhiclcpp::fhiclcpp
+                            cetlib::cetlib cetlib_except::cetlib_except
+                            ROOT::Eve
+                            ROOT::X3d
+                            ROOT::Core
+			CLHEP::CLHEP
+			larcorealg::Geometry
+			nurandom::RandomUtils_NuRandomService_service
+			sbncode::EventGenerator_MeVPrtl_Constants
 )
 
 add_subdirectory(Higgs)
