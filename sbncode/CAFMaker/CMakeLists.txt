@@ -6,11 +6,13 @@ FILE( GLOB src_files *.cxx )
 add_subdirectory(RecoUtils)
 add_subdirectory(bin)
 
+include_directories( $ENV{SRPROXY_DIR}/include )
 art_make_library( LIBRARY_NAME sbncode::CAFMaker
                   SOURCE ${src_files}
                   LIBRARIES
                   ifdh_art::IFDH_service
                   sbnanaobj::StandardRecord
+                  sbnanaobj::StandardRecordFlat
                   art::Framework_Core
                   art::Framework_Services_Registry
                   art_root_io::TFileService_service
@@ -39,6 +41,7 @@ art_make_library( LIBRARY_NAME sbncode::CAFMaker
 		  lardataalg::DetectorInfo
                   art::Framework_Services_System_TriggerNamesService_service
                   sbncode::Metadata_MetadataSBN_service
+                  larsim::Utils
                   )
 
 include_directories( $ENV{IFDHC_DIR}/inc ) ### MIGRATE-ACTION-RECOMMENDED: use target_link_directories() with target semantics

@@ -34,6 +34,7 @@ simple_plugin( EmptyKaonGen tool
 			nurandom::RandomUtils_NuRandomService_service
 			nusimdata::SimulationBase
 			sbncode::EventGenerator_MeVPrtl_Constants
+                        sbnobj::Common_EventGen_MeVPrtl
 )
 
 
@@ -58,6 +59,7 @@ simple_plugin( NuMiKaonGen tool
 			nurandom::RandomUtils_NuRandomService_service
 			nusimdata::SimulationBase
 			sbncode::EventGenerator_MeVPrtl_Constants
+                        sbnobj::Common_EventGen_MeVPrtl
 )
 
 simple_plugin( WeightedRayTraceBox tool
@@ -102,6 +104,7 @@ simple_plugin( MixedWeightRayTraceBox tool
 			nurandom::RandomUtils_NuRandomService_service
 			dk2nuTree
 			sbncode::EventGenerator_MeVPrtl_Constants
+                        sbnobj::Common_EventGen_MeVPrtl
 )
 
 
@@ -125,6 +128,7 @@ simple_plugin( ReThrowRayTraceBox tool
 			larcorealg::Geometry
 			nurandom::RandomUtils_NuRandomService_service
 			sbncode::EventGenerator_MeVPrtl_Constants
+                        sbnobj::Common_EventGen_MeVPrtl
 )
 
 simple_plugin( RayTraceBox tool
@@ -145,6 +149,7 @@ simple_plugin( RayTraceBox tool
 			larcorealg::Geometry
 			nurandom::RandomUtils_NuRandomService_service
 			sbncode::EventGenerator_MeVPrtl_Constants
+                        sbnobj::Common_EventGen_MeVPrtl
 )
 
 add_subdirectory(Higgs)

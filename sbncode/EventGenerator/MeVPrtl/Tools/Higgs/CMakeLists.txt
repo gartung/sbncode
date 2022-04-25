@@ -16,6 +16,7 @@ simple_plugin( MonoEnergyHiggsFlux tool
 			nugen::EventGeneratorBase_GENIE
 			nurandom::RandomUtils_NuRandomService_service
 			sbncode::EventGenerator_MeVPrtl_Constants
+                        sbnobj::Common_EventGen_MeVPrtl
 )
 
 
@@ -40,6 +41,7 @@ simple_plugin( Kaon2HiggsFlux tool
 			nurandom::RandomUtils_NuRandomService_service
 			${GSL}
 			sbncode::EventGenerator_MeVPrtl_Constants
+                        sbnobj::Common_EventGen_MeVPrtl
 )
 
 simple_plugin( HiggsMakeDecay tool
@@ -60,6 +62,7 @@ simple_plugin( HiggsMakeDecay tool
 			nurandom::RandomUtils_NuRandomService_service
 			nusimdata::SimulationBase
 			sbncode::EventGenerator_MeVPrtl_Constants
+                        sbnobj::Common_EventGen_MeVPrtl
 )
 
 install_headers()

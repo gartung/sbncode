@@ -21,6 +21,7 @@ simple_plugin(TrackAreaHit module
 	lardata::DetectorInfoServices_DetectorClocksServiceStandard_service
 	lardata::DetectorInfoServices_DetectorPropertiesServiceStandard_service
 	lardataalg::DetectorInfo
+        larsim::Simulation
 )
 
 simple_plugin(TrackHitFilter module

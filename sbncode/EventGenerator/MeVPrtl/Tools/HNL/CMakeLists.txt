@@ -5,6 +5,7 @@ art_make_library( LIBRARY_NAME sbncode::EventGenerator_MeVPrtl_Dalitz
                         ${ROOT_EVE_LIB_LIST}
                         ${ROOT_X3d}
 			sbncode::EventGenerator_MeVPrtl_Constants
+                        sbnobj::Common_EventGen_MeVPrtl
         )
 
 simple_plugin( Kaon2HNLFlux tool
@@ -28,6 +29,7 @@ simple_plugin( Kaon2HNLFlux tool
 			nurandom::RandomUtils_NuRandomService_service
 			gsl
 			sbncode::EventGenerator_MeVPrtl_Constants
+                        sbnobj::Common_EventGen_MeVPrtl
 )
 
 simple_plugin( HNLMakeDecay tool
@@ -50,6 +52,7 @@ simple_plugin( HNLMakeDecay tool
 			${GSL}
 			sbncode::EventGenerator_MeVPrtl_Dalitz
 			sbncode::EventGenerator_MeVPrtl_Constants
+                        sbnobj::Common_EventGen_MeVPrtl
 )
 
 
