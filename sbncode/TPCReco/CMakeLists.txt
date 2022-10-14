@@ -3,9 +3,6 @@ add_subdirectory(TrackSplit)
 add_subdirectory(VertexStub)
 add_subdirectory(CalorimetryAnalysis)
 
-link_directories( ### MIGRATE-ACTION-RECOMMENDED: use target_link_libraries() with target semantics
- $ENV{ROOTSYS}/lib
-)
 
 simple_plugin(NuVertexChargeTree module
 	art::Framework_Core
@@ -14,13 +11,8 @@ simple_plugin(NuVertexChargeTree module
 	art::Framework_Principal
 	art::Persistency_Common
 	art::Utilities canvas::canvas
-	${MF_MESSAGELOGGER}
-	${MF_UTILITIES}
-	${FHICLCPP}
 	cetlib::cetlib cetlib_except::cetlib_except
-	${ROOT_EVE_LIB_LIST}
 	ROOT::X3d
-	${ROOT_BASIC_LIB_LIST}
 	messagefacility::MF_MessageLogger
         lardata::DetectorInfoServices_DetectorClocksServiceStandard_service
 	sbnobj::Common_Reco
@@ -48,14 +40,9 @@ simple_plugin ( EventSelect module
                art::Framework_Principal
                art::Framework_Services_Registry
                art::Utilities canvas::canvas
-               ${MF_MESSAGELOGGER}
-               ${MF_UTILITIES}
-               ${FHICLCPP}
                cetlib::cetlib cetlib_except::cetlib_except
                lardataalg::DetectorInfo        
-	${ROOT_EVE_LIB_LIST}
 	ROOT::X3d
-	${ROOT_BASIC_LIB_LIST}
 )
 
 

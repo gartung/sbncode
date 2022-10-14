@@ -1,6 +1,3 @@
-link_directories( ### MIGRATE-ACTION-RECOMMENDED: use target_link_libraries() with target semantics
- $ENV{ROOTSYS}/lib
-)
 
 art_make_library(
 	LIBRARY_NAME sbn_LArReco_PCA
@@ -19,13 +16,7 @@ simple_plugin(PCAnglePlaneMaker module
 	art::Framework_Principal
 	art::Persistency_Common
 	art::Utilities canvas::canvas
-	${MF_MESSAGELOGGER}
-	${MF_UTILITIES}
-	${FHICLCPP}
 	cetlib::cetlib cetlib_except::cetlib_except
-	${ROOT_EVE_LIB_LIST}
-	${ROOT_X3d}
-	${ROOT_BASIC_LIB_LIST}
 	messagefacility::MF_MessageLogger
 
 	sbnobj::Common_Reco
@@ -42,16 +33,9 @@ simple_plugin(PCAngleKinkFinder module
 	art::Framework_Principal
 	art::Persistency_Common
 	art::Utilities canvas::canvas
-	${MF_MESSAGELOGGER}
-	${MF_UTILITIES}
-	${FHICLCPP}
 	cetlib::cetlib cetlib_except::cetlib_except
-	${ROOT_EVE_LIB_LIST}
-	${ROOT_X3d}
-	${ROOT_BASIC_LIB_LIST}
 	messagefacility::MF_MessageLogger
-	Minuit
-
+	ROOT::Minuit
 	sbnobj::Common_Reco
 	lardataobj::AnalysisBase
         larcorealg::Geometry
@@ -65,18 +49,10 @@ simple_plugin(PCAngleKinkTree module
 	art::Framework_Principal
 	art::Persistency_Common
 	art::Utilities canvas::canvas
-	${MF_MESSAGELOGGER}
-	${MF_UTILITIES}
-	${FHICLCPP}
 	cetlib::cetlib cetlib_except::cetlib_except
-	${ROOT_EVE_LIB_LIST}
-	${ROOT_X3d}
-	${ROOT_BASIC_LIB_LIST}
 	messagefacility::MF_MessageLogger
-
 	sbnobj::Common_Reco
 	lardataobj::AnalysisBase
-        
         art_root_io::tfile_support
         art_root_io::art_root_io
         art_root_io::dict

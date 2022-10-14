@@ -6,11 +6,9 @@ art_make_library(
 	art::Persistency_Common
 	art::Persistency_Provenance
 	canvas::canvas art::Utilities
-	${FHICLCPP}
 	cetlib::cetlib cetlib_except::cetlib_except
-	${ROOT_BASIC_LIB_LIST}
 	messagefacility::MF_MessageLogger
-lardata::DetectorInfoServices_DetectorPropertiesServiceStandard_service
+        lardata::DetectorInfoServices_DetectorPropertiesServiceStandard_service
 	sbnobj::Common_Reco
 	lardataobj::AnalysisBase
         larcorealg::Geometry
@@ -25,13 +23,9 @@ simple_plugin(VertexChargeVacuum module
 	art::Framework_Services_Registry
 	art::Persistency_Common
 	art::Utilities canvas::canvas
-	${FHICLCPP}
 	cetlib::cetlib cetlib_except::cetlib_except
-	${ROOT_EVE_LIB_LIST}
-	${ROOT_X3d}
-	${ROOT_BASIC_LIB_LIST}
 	messagefacility::MF_MessageLogger
-lardata::DetectorInfoServices_DetectorPropertiesServiceStandard_service
+        lardata::DetectorInfoServices_DetectorPropertiesServiceStandard_service
 	sbnobj::Common_Reco
 	lardataobj::AnalysisBase
         larcorealg::Geometry
@@ -50,15 +44,9 @@ simple_plugin(VertexStubTracker module
 	art::Persistency_Common
 	art::Persistency_Provenance
 	art::Utilities canvas::canvas
-	${MF_MESSAGELOGGER}
-	${MF_UTILITIES}
-	${FHICLCPP}
 	cetlib::cetlib cetlib_except::cetlib_except
-	${ROOT_EVE_LIB_LIST}
-	${ROOT_X3d}
-	${ROOT_BASIC_LIB_LIST}
 	messagefacility::MF_MessageLogger
-lardata::DetectorInfoServices_DetectorPropertiesServiceStandard_service
+        lardata::DetectorInfoServices_DetectorPropertiesServiceStandard_service
 	sbnobj::Common_Reco
 	lardataobj::AnalysisBase
         larcorealg::Geometry
@@ -77,15 +65,9 @@ simple_plugin(PlaneStubMerge tool
         art::Persistency_Common
 	art::Persistency_Provenance
         art::Utilities canvas::canvas
-        ${MF_MESSAGELOGGER}
-        ${MF_UTILITIES}
-        ${FHICLCPP}
         cetlib::cetlib cetlib_except::cetlib_except
-        ${ROOT_EVE_LIB_LIST}
-        ${ROOT_X3d}
-        ${ROOT_BASIC_LIB_LIST}
         messagefacility::MF_MessageLogger
-lardata::DetectorInfoServices_DetectorPropertiesServiceStandard_service
+        lardata::DetectorInfoServices_DetectorPropertiesServiceStandard_service
 	sbnobj::Common_Reco
 	lardataobj::AnalysisBase
         larcorealg::Geometry
@@ -103,15 +85,9 @@ simple_plugin(TwoPlaneStubMerge tool
         art::Framework_Principal
         art::Persistency_Common
         art::Utilities canvas::canvas
-        ${MF_MESSAGELOGGER}
-        ${MF_UTILITIES}
-        ${FHICLCPP}
         cetlib::cetlib cetlib_except::cetlib_except
-        ${ROOT_EVE_LIB_LIST}
-        ${ROOT_X3d}
-        ${ROOT_BASIC_LIB_LIST}
         messagefacility::MF_MessageLogger
-lardata::DetectorInfoServices_DetectorPropertiesServiceStandard_service
+        lardata::DetectorInfoServices_DetectorPropertiesServiceStandard_service
 	sbnobj::Common_Reco
 	lardataobj::AnalysisBase
         larcorealg::Geometry

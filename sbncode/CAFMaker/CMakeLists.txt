@@ -19,11 +19,7 @@ art_make_library( LIBRARY_NAME sbncode::CAFMaker
                   art::Framework_Principal
                   art::Persistency_Common
                   art::Utilities canvas::canvas
-                  ${MF_MESSAGELOGGER}
-                  ${MF_UTILITIES}
-                  ${FHICLCPP}
                   cetlib::cetlib cetlib_except::cetlib_except
-                  ${ROOT_EVE_LIB_LIST}
                   ROOT::X3d
                   ROOT::EG
                   caf_RecoUtils
@@ -57,15 +53,13 @@ cet_build_plugin ( CAFMaker art::module
                art::Framework_Principal
                art::Framework_Services_Registry
                art::Utilities canvas::canvas
-               ${MF_MESSAGELOGGER}
-               ${MF_UTILITIES}
-               ${FHICLCPP}
                cetlib::cetlib cetlib_except::cetlib_except
                ROOT::Core ROOT::Tree
                art_root_io::RootDB
                hep_concurrency::hep_concurrency
-                  lardataobj::RecoBase
+               lardataobj::RecoBase
                nurandom::RandomUtils_NuRandomService_service
+               lardata::DetectorClocksService
                BASENAME_ONLY
             )
 
@@ -81,8 +75,6 @@ build_dictionary( CAFMaker
                   art::Persistency_Provenance
                   art::Utilities canvas::canvas
                   cetlib::cetlib cetlib_except::cetlib_except
-                  ${MF_MESSAGELOGGER}
-                  ${MF_UTILITIES}
                   )
 
 

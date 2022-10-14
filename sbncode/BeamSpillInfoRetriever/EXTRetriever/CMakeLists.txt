@@ -6,13 +6,8 @@ include_directories( $ENV{IFDH_ART_DIR}/include )
 include_directories( $ENV{TRACE_INC} )
 
 simple_plugin(EXTRetriever module
-	${ART_FRAMEWORK_CORE}
-	${ART_FRAMEWORK_SERVICES_REGISTRY}
-	${ART_FRAMEWORK_SERVICES}
-	${ART_FRAMEWORK_PRINCIPAL}
 	art::Persistency_Common
 	art::Utilities canvas::canvas
-	${FHICLCPP}
 	cetlib::cetlib cetlib_except::cetlib_except
 	messagefacility::MF_MessageLogger
        	sbnobj::Common_POTAccounting

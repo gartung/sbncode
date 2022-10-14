@@ -5,9 +5,6 @@ simple_plugin( CalorimetryAnalysis module
                             art::Framework_Principal
                             art::Persistency_Common
                             art::Utilities canvas::canvas
-                            ${MF_MESSAGELOGGER}
-                            ${MF_UTILITIES}
-                            ${FHICLCPP}
                             cetlib::cetlib cetlib_except::cetlib_except
                             ROOT::EG
                             ROOT::X3d

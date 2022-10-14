@@ -1,6 +1,10 @@
-include_directories($ENV{GENIE}/include/GENIE) ### MIGRATE-ACTION-RECOMMENDED: use target_link_directories() with target semantics
+# Headers needed for the GenieWeightCalc class
+include_directories ( $ENV{GENIE_INC} )
+include_directories ( $ENV{GENIE_INC}/GENIE )
+include_directories ( $ENV{LOG4CPP_INC} )
+include_directories($ENV{GENIE}/include/GENIE) 
 
-art_make( ### MIGRATE-ACTION-RECOMMENDED: use art_make_library(), art_dictionary(), simple_plugin() with explicit source lists
+art_make( 
   LIBRARY_NAME sbncode_SBNEventWeight_Calculators_CrossSection
   LIB_LIBRARIES
     sbncode::SBNEventWeight_Base
@@ -9,9 +13,7 @@ art_make( ### MIGRATE-ACTION-RECOMMENDED: use art_make_library(), art_dictionary
     nugen::NuReweight
     nurandom::RandomUtils_NuRandomService_service
     art::Framework_Principal
-    ${ART_PERSISTENCY_PROVENANCE}
     art::Framework_Services_Registry
-    ${FHICLCPP}
    #GENIE_LIB_LIST is explicitly listed below:
     LOG4CPP
     GFWMSG
@@ -62,9 +64,8 @@ art_make( ### MIGRATE-ACTION-RECOMMENDED: use art_make_library(), art_dictionary
     GRWFWK
     GRWIO
     GRWCLC
-	GSL
+    GSL
     #GENIE libraries are above
-    ${MF_MESSAGELOGGER}
     cetlib_except::cetlib_except
 )
 

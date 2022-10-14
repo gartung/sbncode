@@ -4,12 +4,12 @@
 #  EXTRA_FLAGS  -Wall -Wextra  -pedantic  #-Wconversion
 #  )
 
-art_make( ### MIGRATE-ACTION-RECOMMENDED: use art_make_library(), art_dictionary(), simple_plugin() with explicit source lists
+art_make( 
   MODULE_LIBRARIES
   art::Framework_Core
   art::Framework_Principal
   art::Framework_Services_Registry
-  art_root_io::tfile_support ${ROOT_CORE}
+  art_root_io::tfile_support ROOT::Core ROOT::Tree
   art_root_io::TFileService_service
   art::Persistency_Common
   art::Persistency_Provenance
@@ -34,12 +34,9 @@ art_make( ### MIGRATE-ACTION-RECOMMENDED: use art_make_library(), art_dictionary
   larsim::Utils
   sbnobj::Common_Reco
   nusimdata::SimulationBase
-  ${MF_MESSAGELOGGER}
-  ${FHICLCPP}
-  ${ROOT_GEOM}
-  ${ROOT_XMLIO}
-  ${ROOT_GDML}
-  ${ROOT_BASIC_LIB_LIST}
+  ROOT::Geom
+  ROOT::XMLIO
+  ROOT::Gdml
   )
 
 install_headers()

@@ -5,13 +5,7 @@ simple_plugin( MuPVertexStudy module
                             art::Framework_Principal
                             art::Persistency_Common
                             art::Utilities canvas::canvas
-                            ${MF_MESSAGELOGGER}
-                            ${MF_UTILITIES}
-                            ${FHICLCPP}
                             cetlib::cetlib cetlib_except::cetlib_except
-                            ${ROOT_EVE_LIB_LIST}
-                            ${ROOT_X3d}
-                            ${ROOT_BASIC_LIB_LIST}
 	art_root_io::tfile_support
 	art_root_io::art_root_io
 	art_root_io::dict
@@ -36,13 +30,7 @@ simple_plugin( MuonS2NStudy module
                             art::Framework_Principal
                             art::Persistency_Common
                             art::Utilities canvas::canvas
-                            ${MF_MESSAGELOGGER}
-                            ${MF_UTILITIES}
-                            ${FHICLCPP}
                             cetlib::cetlib cetlib_except::cetlib_except
-                            ${ROOT_EVE_LIB_LIST}
-                            ${ROOT_X3d}
-                            ${ROOT_BASIC_LIB_LIST}
 	art_root_io::tfile_support
 	art_root_io::art_root_io
 	art_root_io::dict
@@ -67,13 +55,7 @@ simple_plugin( NuMuEfficiencyStudy module
                             art::Framework_Principal
                             art::Persistency_Common
                             art::Utilities canvas::canvas
-                            ${MF_MESSAGELOGGER}
-                            ${MF_UTILITIES}
-                            ${FHICLCPP}
                             cetlib::cetlib cetlib_except::cetlib_except
-                            ${ROOT_EVE_LIB_LIST}
-                            ${ROOT_X3d}
-                            ${ROOT_BASIC_LIB_LIST}
 	art_root_io::tfile_support
 	art_root_io::art_root_io
 	art_root_io::dict

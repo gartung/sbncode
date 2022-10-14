@@ -1,13 +1,9 @@
-#link_directories( ### MIGRATE-ACTION-RECOMMENDED: use target_link_libraries() with target semantics
-# $ENV{ROOTSYS}/lib
-#)
 
 add_subdirectory(LArReco)
 art_make( 
   LIB_LIBRARIES
 		fhiclcpp::fhiclcpp
 		art::Persistency_Provenance canvas
-		${ROOT_BASIC_LIB_LIST}
 		sbncode_GeoWrappers
 
   MODULE_LIBRARIES
@@ -17,11 +13,7 @@ art_make(
 	art::Framework_Principal
 	art::Persistency_Common
 	art::Utilities canvas::canvas
-	${MF_MESSAGELOGGER}
-	${MF_UTILITIES}
-	${FHICLCPP}
 	cetlib::cetlib cetlib_except::cetlib_except
-	${ROOT_EVE_LIB_LIST}
 	ROOT::X3d
 	ROOT::Core
 	messagefacility::MF_MessageLogger

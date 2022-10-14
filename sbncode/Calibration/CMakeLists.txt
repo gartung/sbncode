@@ -1,6 +1,3 @@
-link_directories( ### MIGRATE-ACTION-RECOMMENDED: use target_link_libraries() with target semantics
- $ENV{ROOTSYS}/lib
-)
 
 simple_plugin( TrackCaloSkimmer module
                             art::Framework_Core
@@ -9,13 +6,8 @@ simple_plugin( TrackCaloSkimmer module
                             art::Framework_Principal
                             art::Persistency_Common
                             art::Utilities canvas::canvas
-                            ${MF_MESSAGELOGGER}
-                            ${MF_UTILITIES}
-                            ${FHICLCPP}
                             cetlib::cetlib cetlib_except::cetlib_except
-                            ${ROOT_EVE_LIB_LIST}
                             ROOT::X3d
-                            ${ROOT_BASIC_LIB_LIST}
 	art_root_io::tfile_support
 	art_root_io::art_root_io
 	art_root_io::dict
@@ -41,13 +33,9 @@ simple_plugin(TrackCaloSkimmerSelectStoppingTrack tool
                             art::Framework_Principal
                             art::Persistency_Common
                             art::Utilities canvas::canvas
-                            ${MF_MESSAGELOGGER}
-                            ${MF_UTILITIES}
-                            ${FHICLCPP}
                             cetlib::cetlib cetlib_except::cetlib_except
-                            ${ROOT_EVE_LIB_LIST}
                             ROOT::X3d
-                            ${ROOT_BASIC_LIB_LIST}
+                            larcore::Geometry_Geometry_service
         larcorealg::Geometry
 	larcorealg::GeoAlgo
 	lardata::DetectorInfoServices_DetectorPropertiesServiceStandard_service
@@ -63,32 +51,19 @@ simple_plugin(TrackCaloSkimmerSelectAnode2CathodeTrack tool
                             art::Framework_Principal
                             art::Persistency_Common
                             art::Utilities canvas::canvas
-                            ${MF_MESSAGELOGGER}
-                            ${MF_UTILITIES}
-                            ${FHICLCPP}
                             cetlib::cetlib cetlib_except::cetlib_except
-                            ${ROOT_EVE_LIB_LIST}
                             ROOT::X3d
-                            ${ROOT_BASIC_LIB_LIST}
         sbnobj::Common_Calibration_dict
         larevt::SpaceCharge
 )
 
 link_directories( $ENV{IFDHC_DIR}/lib )
 simple_plugin(TrackCaloSkimmerSelectAllTrack tool
-                            ${ART_FRAMEWORK_CORE}
-                            ${ART_FRAMEWORK_SERVICES_REGISTRY}
-                            ${ART_ROOT_IO_TFILESERVICE_SERVICE}                ${ART_FRAMEWORK_SERVICES}
-                            ${ART_FRAMEWORK_PRINCIPAL}
-                            art_Persistency_Common
-                            art_Utilities canvas
-                            ${MF_MESSAGELOGGER}
-                            ${MF_UTILITIES}
-                            ${FHICLCPP}
-                            cetlib cetlib_except
-                            ${ROOT_EVE_LIB_LIST}
-                            ${ROOT_X3d}
-                            ${ROOT_BASIC_LIB_LIST}
+                            art::Persistency_Common
+                            art::Utilities canvas::canvas
+                            larcore::Geometry_Geometry_service
+                            cetlib::cetlib cetlib_except::cetlib_except
+                            ROOT::X3d
 )
 
 simple_plugin ( DataSelect module
@@ -97,13 +72,8 @@ simple_plugin ( DataSelect module
                art::Framework_Principal
                art::Framework_Services_Registry
                art::Utilities canvas::canvas
-               ${MF_MESSAGELOGGER}
-               ${MF_UTILITIES}
-               ${FHICLCPP}
                cetlib::cetlib cetlib_except::cetlib_except
-        ${ROOT_EVE_LIB_LIST}
         ROOT::X3d
-        ${ROOT_BASIC_LIB_LIST}
         sbnobj::Common_Calibration_dict
 	larevt::SpaceCharge
         lardataobj::RecoBase

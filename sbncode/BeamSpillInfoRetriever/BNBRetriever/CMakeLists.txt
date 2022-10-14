@@ -19,31 +19,21 @@ cet_make_library(LIBRARIES Boost::system
 
 
 simple_plugin(BNBRetriever module
-	${ART_FRAMEWORK_CORE}
-	${ART_FRAMEWORK_SERVICES_REGISTRY}
-	${ART_ROOT_IO_TFILESERVICE_SERVICE}                ${ART_FRAMEWORK_SERVICES}
-	${ART_FRAMEWORK_PRINCIPAL}
 	art::Persistency_Common
 	art::Utilities canvas::canvas
-	${MF_MESSAGELOGGER}
-	${MF_UTILITIES}
-	${FHICLCPP}
 	cetlib::cetlib cetlib_except::cetlib_except
-	${ROOT_EVE_LIB_LIST}
 	ROOT::X3d
-	${ROOT_BASIC_LIB_LIST}
-        ${Boost_PROGRAM_OPTIONS_LIBRARY} ${Boost_FILESYSTEM_LIBRARY} ${Boost_DATE_TIME_LIBRARY} ${Boost_SERIALIZATION_LIBRARY}
         Boost::system
 	messagefacility::MF_MessageLogger
 	ifbeam::ifbeam
         ifdh_art::IFBeam_service
 	sbndaq_artdaq_core::sbndaq-artdaq-core_Overlays_Common
   	sbndaq_artdaq_core::sbndaq-artdaq-core_Overlays
-	sbndaq_artdaq_core::sbndaq-artdaq-core_Overlays_ICARUS	
+	sbndaq_artdaq_core::sbndaq-artdaq-core_Overlays_ICARUS
         artdaq_core::artdaq-core_Utilities
 	sbn_BNBSpillInfoRetriever_MWRData
         sbnobj::Common_POTAccounting
-        larcorealg::CoreUtils	
+        larcorealg::CoreUtils
 )
 
 install_headers()
