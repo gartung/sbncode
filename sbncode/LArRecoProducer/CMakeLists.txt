@@ -3,7 +3,14 @@
 #)
 
 add_subdirectory(LArReco)
-art_make( MODULE_LIBRARIES ### MIGRATE-ACTION-RECOMMENDED: use art_make_library(), art_dictionary(), simple_plugin() with explicit source lists
+art_make( 
+  LIB_LIBRARIES
+		fhiclcpp::fhiclcpp
+		art::Persistency_Provenance canvas
+		${ROOT_BASIC_LIB_LIST}
+		sbncode_GeoWrappers
+
+  MODULE_LIBRARIES
 	art::Framework_Core
 	art::Framework_Services_Registry
 	art_root_io::TFileService_service 
@@ -20,6 +27,7 @@ art_make( MODULE_LIBRARIES ### MIGRATE-ACTION-RECOMMENDED: use art_make_library(
 	messagefacility::MF_MessageLogger
         ROOT::EG
 	sbn_LArReco	    
+        sbncode_LArRecoProducer
 	sbnobj::Common_CRT
 	sbnobj::Common_Reco
 	lardataobj::RecoBase_AssnsDicts_dict

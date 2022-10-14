@@ -7,8 +7,9 @@ art_make( ### MIGRATE-ACTION-RECOMMENDED: use art_make_library(), art_dictionary
         larsim::PhotonPropagation
         larsim::PhotonPropagation_PhotonVisibilityService_service
         larsim::LegacyLArG4
-        sbncode::OpT0Finder_flashmatch_GeoAlgo
+        #sbncode::OpT0Finder_flashmatch_GeoAlgo
         sbncode::OpT0Finder_flashmatch_Base
+        larcorealg::GeoAlgo
         art::Framework_Core
         art::Framework_Principal
         ${ART_FRAMEWORK_BASIC}
