@@ -41,13 +41,15 @@ art_make_library( LIBRARY_NAME sbncode::FluxReader_FluxInterface
                larcore::Geometry_Geometry_service 
                   # GENIE STUFF #####################################
                   xml2
-                  LOG4CPP
+
+                  log4cpp::log4cpp
                   GENIE::GFwEG
                   GENIE::GFwAlg
                   GENIE::GFwMsg
                   GENIE::GFwGHEP
                   GENIE::GTlFlx
                   dk2nu::Tree
+                  GENIE::GFwParDat
                   #${DK2NUDATA}
                   ${DK2NUGENIE}
                   ####################################################
@@ -61,16 +63,15 @@ art_make_library( LIBRARY_NAME sbncode::FluxReader_FluxInterface
                   ${Boost_SYSTEM_LIBRARY}
 )
 
-art_make( EXCLUDE FluxReader_source.cc ${INTERFACEFILES} FluxGeoFilter_module.cc ### MIGRATE-ACTION-RECOMMENDED: use art_make_library(), art_dictionary(), simple_plugin() with explicit source lists
-          LIB_LIBRARIES	nusimdata::SimulationBase
-                        sbncode::FluxReader_FluxInterface
-                        larcoreobj::SummaryData
-               larcore::Geometry_Geometry_service 
-                        art::Framework_Core
-                        art::Framework_IO_Sources
-                        art::Framework_Principal
-                        art::Framework_Services_Registry
-                        art_root_io::TFileService_service
+art_make( EXCLUDE FluxReader_source.cc ${INTERFACEFILES} FluxGeoFilter_module.cc
+          LIB_LIBRARIES	nusimdata_SimulationBase
+                        sbncode_FluxReader_FluxInterface
+                        larcoreobj_SummaryData
+                        ${ART_FRAMEWORK_CORE}
+                        ${ART_FRAMEWORK_IO_SOURCES}
+                        ${ART_FRAMEWORK_PRINCIPAL}
+                        ${ART_FRAMEWORK_SERVICES_REGISTRY}
+                        ${ART_FRAMEWORK_SERVICES_OPTIONAL}
                         art_root_io::TFileService_service
                         art_root_io::tfile_support
                         art::Persistency_Common canvas::canvas
@@ -98,23 +99,26 @@ art_make( EXCLUDE FluxReader_source.cc ${INTERFACEFILES} FluxGeoFilter_module.cc
                         art_root_io::TFileService_service
                         art_root_io::TFileService_service
                         art_root_io::tfile_support
+                        messagefacility::MF_MessageLogger
+                        fhiclcpp::fhiclcpp
+                        cetlib cetlib_except
                         # GENIE STUFF #####################################
                         xml2
-                        LOG4CPP
-                        ${GALGORITHM}
+                        log4cpp::log4cpp
+                        GENIE::GFwEG
+                        GENIE::GFwAlg
+                        GENIE::GFwMsg
+                        GENIE::GFwGHEP
+                        GENIE::GTlFlx
+                        GENIE::GFwParDat
                         ${GBASE}
                         ${GEVGCORE}
                         ${GEVGDRIVERS}
                         ${GFLUXDRIVERS}
                         ${GINTERACTION}
-                        ${GMESSENGER}
-                        ${GHEP}
                         ${DK2NUDATA}
                         ${DK2NUGENIE}
                         ####################################################
-                        ${MF_MESSAGELOGGER}
-                        ${MF_UTILITIES}
-                        ${FHICLCPP}
                         ${Boost_SYSTEM_LIBRARY}
                         ROOT::Core ROOT::Tree
 )

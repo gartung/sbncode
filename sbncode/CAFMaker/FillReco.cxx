@@ -66,9 +66,9 @@ namespace caf
                   caf::SRCRTHit &srhit,
                   bool allowEmpty) {
 
-    srhit.time = (use_ts0 ? (float)hit.ts0_ns : hit.ts1_ns) / 1000.;
-    srhit.t0 = ((long long)(hit.ts0_ns)-(long long)(gate_start_timestamp))/1000.;
-    srhit.t1 = hit.ts1_ns/1000.;
+    srhit.time = (use_ts0 ? (float)hit.ts0() : hit.ts1()) / 1000.;
+    srhit.t0 = ((long long)(hit.ts0())-(long long)(gate_start_timestamp))/1000.;
+    srhit.t1 = hit.ts1()/1000.;
 
     srhit.position.x = hit.x_pos;
     srhit.position.y = hit.y_pos;
@@ -111,6 +111,43 @@ namespace caf
     srtrack.hitb.plane = track.plane2;
   }
 
+  void FillOpFlash(const recob::OpFlash &flash,
+                  int cryo, 
+                  caf::SROpFlash &srflash,
+                  bool allowEmpty) {
+
+    srflash.setDefault();
+
+    srflash.time = flash.Time();
+    srflash.timewidth = flash.TimeWidth();
+    srflash.cryo = cryo; // 0 in SBND, 0/1 for E/W in ICARUS
+
+    // Sum over each wall, not very SBND-compliant
+    float sumEast = 0.;
+    float sumWest = 0.;
+    int countingOffset = 0;
+    if ( cryo == 1 ) countingOffset += 180;
+    for ( int PMT = 0 ; PMT < 180 ; PMT++ ) {
+      if ( PMT <= 89 ) sumEast += flash.PEs().at(PMT + countingOffset);
+      else sumWest += flash.PEs().at(PMT + countingOffset);
+    }
+    srflash.peperwall[0] = sumEast;
+    srflash.peperwall[1] = sumWest;
+
+    srflash.totalpe = flash.TotalPE();
+    srflash.fasttototal = flash.FastToTotal();
+    srflash.onbeamtime = flash.OnBeamTime();
+
+    srflash.center.SetXYZ( -9999.f, flash.YCenter(), flash.ZCenter() );
+    srflash.width.SetXYZ( -9999.f, flash.YWidth(), flash.ZWidth() );
+
+    // Checks if ( recob::OpFlash.XCenter() != std::numeric_limits<double>::max() )
+    // See LArSoft OpFlash.h at https://nusoft.fnal.gov/larsoft/doxsvn/html/OpFlash_8h_source.html
+    if ( flash.hasXCenter() ) {
+      srflash.center.SetX( flash.XCenter() );
+      srflash.width.SetX( flash.XWidth() );
+    }
+  }
 
   std::vector<float> double_to_float_vector(const std::vector<double>& v)
   {
@@ -433,12 +470,44 @@ namespace caf
   }
 
   void FillPlaneChi2PID(const anab::ParticleID &particle_id, caf::SRTrkChi2PID &srpid) {
-    srpid.chi2_muon = particle_id.Chi2Muon();
-    srpid.chi2_pion = particle_id.Chi2Pion();
-    srpid.chi2_kaon = particle_id.Chi2Kaon();
-    srpid.chi2_proton = particle_id.Chi2Proton();
-    srpid.pid_ndof = particle_id.Ndf();
-    srpid.pida = particle_id.PIDA();
+
+    // Assign dummy values.
+
+    srpid.chi2_muon = 0.;
+    srpid.chi2_pion = 0.;
+    srpid.chi2_kaon = 0.;
+    srpid.chi2_proton = 0.;
+    srpid.pid_ndof = 0;
+    srpid.pida = 0.;
+
+    // Loop over algorithm scores and extract the ones we want.
+    // Get the ndof from any chi2 algorithm
+
+    std::vector<anab::sParticleIDAlgScores> AlgScoresVec = particle_id.ParticleIDAlgScores();
+    for (size_t i_algscore=0; i_algscore<AlgScoresVec.size(); i_algscore++){
+      anab::sParticleIDAlgScores AlgScore = AlgScoresVec.at(i_algscore);
+      if (AlgScore.fAlgName == "Chi2"){
+        if (TMath::Abs(AlgScore.fAssumedPdg) == 13) { // chi2mu
+          srpid.chi2_muon = AlgScore.fValue;
+          srpid.pid_ndof = AlgScore.fNdf;
+        }
+        else if (TMath::Abs(AlgScore.fAssumedPdg) == 211) { // chi2pi
+          srpid.chi2_pion = AlgScore.fValue;
+          srpid.pid_ndof = AlgScore.fNdf;
+        }
+        else if (TMath::Abs(AlgScore.fAssumedPdg) == 321) { // chi2ka
+          srpid.chi2_kaon = AlgScore.fValue;
+          srpid.pid_ndof = AlgScore.fNdf;
+        }
+        else if (TMath::Abs(AlgScore.fAssumedPdg) == 2212) { // chi2pr
+          srpid.chi2_proton = AlgScore.fValue;
+          srpid.pid_ndof = AlgScore.fNdf;
+        }
+      }
+      else if (AlgScore.fVariableType==anab::kPIDA){
+        srpid.pida = AlgScore.fValue;
+      }
+    }
   }
 
   void FillTrackChi2PID(const std::vector<art::Ptr<anab::ParticleID>> particleIDs,
@@ -490,6 +559,9 @@ namespace caf
         p.dedx = dedx[i];
         p.pitch = pitch[i];
         p.t = dprop.ConvertXToTicks(xyz[i].x(), calo.PlaneID());
+        p.p.x = xyz[i].x();
+        p.p.y = xyz[i].y();
+        p.p.z = xyz[i].z();
 
         // lookup the wire -- the Calorimery object makes this
         // __way__ harder than it should be
@@ -641,9 +713,48 @@ namespace caf
       auto const &propertiesMap (pfpMeta->GetPropertiesMap());
       auto const &pfpTrackScoreIter(propertiesMap.find("TrackScore"));
       srpfp.trackScore = (pfpTrackScoreIter == propertiesMap.end()) ? -5.f : pfpTrackScoreIter->second;
+
+      // Pfo Characterisation features
+      srpfp.pfochar.setDefault();
+
+      CopyPropertyIfSet(propertiesMap, "LArThreeDChargeFeatureTool_EndFraction",             srpfp.pfochar.chgendfrac);
+      CopyPropertyIfSet(propertiesMap, "LArThreeDChargeFeatureTool_FractionalSpread",        srpfp.pfochar.chgfracspread);
+      CopyPropertyIfSet(propertiesMap, "LArThreeDLinearFitFeatureTool_DiffStraightLineMean", srpfp.pfochar.linfitdiff);
+      CopyPropertyIfSet(propertiesMap, "LArThreeDLinearFitFeatureTool_Length",               srpfp.pfochar.linfitlen);
+      CopyPropertyIfSet(propertiesMap, "LArThreeDLinearFitFeatureTool_MaxFitGapLength",      srpfp.pfochar.linfitgaplen);
+      CopyPropertyIfSet(propertiesMap, "LArThreeDLinearFitFeatureTool_SlidingLinearFitRMS",  srpfp.pfochar.linfitrms);
+      CopyPropertyIfSet(propertiesMap, "LArThreeDOpeningAngleFeatureTool_AngleDiff",         srpfp.pfochar.openanglediff);
+      CopyPropertyIfSet(propertiesMap, "LArThreeDPCAFeatureTool_SecondaryPCARatio",          srpfp.pfochar.pca2ratio);
+      CopyPropertyIfSet(propertiesMap, "LArThreeDPCAFeatureTool_TertiaryPCARatio",           srpfp.pfochar.pca3ratio);
+      CopyPropertyIfSet(propertiesMap, "LArThreeDVertexDistanceFeatureTool_VertexDistance",  srpfp.pfochar.vtxdist);
     }
   }
 
+  void FillHitVars(const recob::Hit& hit,
+                   unsigned producer,
+                   const recob::SpacePoint& spacepoint,
+                   const recob::PFParticle& particle,
+                   caf::SRHit& srhit,
+                   bool allowEmpty)
+  {
+    srhit.setDefault();
+
+    srhit.peakTime = hit.PeakTime();
+    srhit.RMS = hit.RMS();
+
+    srhit.peakAmplitude = hit.PeakAmplitude();
+    srhit.integral = hit.Integral();
+
+    const geo::WireID wire = hit.WireID();
+    srhit.cryoID = wire.Cryostat;
+    srhit.tpcID = wire.TPC;
+    srhit.planeID = wire.Plane;
+    srhit.wireID = wire.Wire;
+    srhit.spacepoint.XYZ = SRVector3D (spacepoint.XYZ());
+    srhit.spacepoint.chisq = spacepoint.Chisq();
+    srhit.spacepoint.pfpID = particle.Self();
+    srhit.spacepoint.ID = spacepoint.ID();
+  }
   //......................................................................
 
   void SetNuMuCCPrimary(std::vector<caf::StandardRecord> &recs,

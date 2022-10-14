@@ -13,10 +13,8 @@
 # ======================================================================
 cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
 
-
-
 find_package(cetmodules 2.29.07 REQUIRED)
-project(sbncode VERSION 09.37.02.03 LANGUAGES CXX)
+project(sbncode VERSION 09.59.00 LANGUAGES CXX)
 
 message(STATUS "\n\n  ==========================   ${PROJECT_NAME}   ==========================")
 
@@ -33,7 +31,7 @@ cet_set_compiler_flags(DIAGS CAUTIOUS
   WERROR
   NO_UNDEFINED
   ALLOW_DEPRECATIONS
-  EXTRA_FLAGS -pedantic -Wno-unused-local-typedefs -Wno-undefined-var-template
+  EXTRA_FLAGS -pedantic -Wno-unused-local-typedefs
 )
 set(fcl_dir caf)
 cet_report_compiler_flags(REPORT_THRESHOLD VERBOSE)
@@ -194,6 +192,7 @@ include(BuildPlugins)
 
 add_subdirectory(sbncode)
 add_subdirectory(fcl)
+add_subdirectory(fclmodule)
 
 # packaging utility
 cet_cmake_config()

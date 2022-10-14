@@ -5,6 +5,7 @@ cet_find_library( WDA NAMES wda PATHS ENV LIBWDA_LIB NO_DEFAULT_PATH )
 
 find_package(sbnanaobj) ### MIGRATE-ACTION-RECOMMENDED: use cet_find_package() with target semantics for linking
 
+add_subdirectory(SinglePhotonAnalysis)
 add_subdirectory(SBNEventWeight)
 add_subdirectory(NuMuSelection)
 add_subdirectory(OpDet)

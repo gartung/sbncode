@@ -18,6 +18,8 @@
 #include "lardataobj/RecoBase/Track.h"
 #include "lardataobj/RecoBase/Vertex.h"
 #include "lardataobj/RecoBase/Hit.h"
+#include "lardataobj/RecoBase/SpacePoint.h"
+#include "lardataobj/RecoBase/OpFlash.h"
 #include "lardataobj/AnalysisBase/Calorimetry.h"
 #include "lardataobj/AnalysisBase/ParticleID.h"
 #include "lardataobj/AnalysisBase/T0.h"
@@ -96,6 +98,13 @@ namespace caf
                      caf::SRTrack& srtrk,
                      bool allowEmpty = false);
 
+  void FillHitVars(const recob::Hit& hit,
+                   unsigned producer,
+                   const recob::SpacePoint& spacepoint,
+                   const recob::PFParticle& particle,
+                   caf::SRHit& srhit,
+                   bool allowEmpty = false);
+
   void FillPFPVars(const recob::PFParticle &particle,
                    const recob::PFParticle *primary,
                    const larpandoraobj::PFParticleMetadata *pfpMeta,
@@ -165,6 +174,11 @@ namespace caf
   void FillCRTTrack(const sbn::crt::CRTTrack &track,
                   bool use_ts0,
                   caf::SRCRTTrack &srtrack,
+                  bool allowEmpty = false);
+
+  void FillOpFlash(const recob::OpFlash &flash,
+                  int cryo,
+                  caf::SROpFlash &srflash,
                   bool allowEmpty = false);
 
   template<class T, class U>
